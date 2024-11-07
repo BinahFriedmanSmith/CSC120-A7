@@ -5,8 +5,26 @@ public class Library extends Building {
 
     private Hashtable<String, Boolean> collection;
 
+    public Library() {
+      this("<Address Unknown>"); // Call next biggest constructor
+    }
+  
+    /* Overloaded constructor with address only */
+    public Library(String address) {
+      this("<Name Unknown>", address); // Call next biggest constructor
+    }
+  
+    /* Overloaded constructor with name, address */
+    public Library(String name, String address) {
+      this(name, address, 1); // Call next biggest constructor
+    }
+
     public Library(String name, String address, int nFloors) {
-      super(name, address, nFloors); 
+      this(name, address, nFloors, true);
+    }
+
+    public Library(String name, String address, int nFloors, boolean hasElevator) {
+      super(name, address, nFloors, hasElevator); 
       collection = new Hashtable<>();
       System.out.println("You have built a library: 📖");
     }
@@ -47,6 +65,7 @@ public class Library extends Building {
       if (this.containsTitle(title)){
         if (isAvailable(title)){
           collection.put(title, false);
+          System.out.println("Checked out " + title);
         }
         else {
           throw new RuntimeException("Cannot check out book which is already checked out");
@@ -65,6 +84,7 @@ public class Library extends Building {
       if (this.containsTitle(title)){
         if (!isAvailable(title)){
           collection.put(title, true);
+          System.out.println("Returned " + title);
         }
         else {
           throw new RuntimeException("Cannot return book which is already at location");
@@ -106,16 +126,23 @@ public class Library extends Building {
         (k, v) -> System.out.println(k + " \n\tAvaliable? " + v));
     } 
 
+    @Override
+    public void showOptions() {
+      super.showOptions();
+      System.out.println(" + printCollection() \n + checkOut(book) \n + returnBook(book) \n + addTitle(book) \n + removeTitle(book) \n + isAvaliable(book)");
+  }
+
     public static void main(String[] args) {
-      Library neilson = new Library("Neilson Library", "7 Neilson Drive", 4);
+      Library neilson = new Library("Neilson Library", "7 Neilson Drive", 4, true);
       System.out.println(neilson);
-      System.out.println("adding books to collection");
+      System.out.println("adding books to collection...");
       neilson.addTitle("Fables: Legends in exile");
       neilson.addTitle("Galactus");
       neilson.addTitle("Soldier's Heart");
-      System.out.println("checking out a book");
+      neilson.addTitle("Can't We Talk About Something More Pleasant?");
+      System.out.println("checking out a book...");
       neilson.checkOut("Soldier's Heart");
-      System.out.println("printing collection");
+      System.out.println("printing collection...");
       neilson.printCollection();
     }
   

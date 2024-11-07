@@ -5,8 +5,32 @@ public class House extends Building{
   ArrayList<String> residents;
   Boolean hasDining;
 
+  public House() {
+    this("<Address Unknown>"); // Call next biggest constructor
+  }
+
+  /* Overloaded constructor with address only */
+  public House(String address) {
+    this("<Name Unknown>", address); // Call next biggest constructor
+  }
+
+  /* Overloaded constructor with name, address */
+  public House(String name, String address) {
+    this(name, address, 1); // Call next biggest constructor
+  }
+
+  /* Overloaded constructor with name, address, nfloors */
+  public House(String name, String address, int nFloors) {
+    this(name, address, nFloors, false); // Call next biggest constructor
+  }
+
+  /* Overloaded constructor without hasElevator */
   public House(String name, String address, int nFloors, boolean hasDining) {
-    super(name, address, nFloors);
+    this(name, address, nFloors, hasDining, false);
+  }
+
+  public House(String name, String address, int nFloors, boolean hasDining, boolean hasElevator) {
+    super(name, address, nFloors, hasElevator);
     this.hasDining = hasDining;
     this.residents = new ArrayList<>();
     System.out.println("You have built a house: 🏠");
@@ -65,9 +89,14 @@ public class House extends Building{
     return residents.contains(person);
   }
 
+  @Override
+  public void showOptions() {
+    super.showOptions();
+    System.out.println(" + moveIn(student) \n + moveOut(student)");
+}
 
   public static void main(String[] args) {
-    House gillett = new House("Gillett House", "47 Elm street",5, true);
+    House gillett = new House("Gillett House", "47 Elm street",5, true, true);
     System.out.println(gillett + " It is " + gillett.hasDiningRoom() + " that it has a dining room.");
     String binah = "Binah";
     System.out.println("checking if Binah is a resident: " + gillett.isResident(binah));
